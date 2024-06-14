@@ -42,10 +42,10 @@ public extension float4x4 {
     static func rotate(y: Angle) -> float4x4 {
         let (sin: sy, cos: cy) = sincos(y)
         return float4x4(
-            [cy, 0, sy, 0],
-            [0,  1,  0,  0],
+            [cy,  0,  sy, 0],
+            [0,   1,  0,  0],
             [-sy, 0,  cy, 0],
-            [0,  0,  0,  1]
+            [0,   0,  0,  1]
         )
     }
     
@@ -55,8 +55,8 @@ public extension float4x4 {
     static func rotate(z: Angle) -> float4x4 {
         let (sin: sz, cos: cz) = sincos(z)
         return float4x4(
-            [ cz, -sz, 0, 0],
-            [sz, cz, 0, 0],
+            [cz, -sz, 0, 0],
+            [sz,  cz, 0, 0],
             [ 0,  0,  1, 0],
             [ 0,  0,  0, 1]
         )
@@ -91,30 +91,45 @@ public extension float4x4 {
         )
     }
 
-    // MARK: - Matrix Operations
+    // MARK: - Shear
 
-    /// Returns a transformation matrix which can be used to scale, rotate and translate vectors
-    static func scaleRotateTranslate(
-        scale: SIMD3<Float32>,
-        ax: Angle,
-        ay: Angle,
-        az: Angle,
-        translate: SIMD3<Float32>
-    ) -> float4x4 {
-        let (sin: sx, cos: cx) = sincos(ax)
-        let (sin: sy, cos: cy) = sincos(ay)
-        let (sin: sz, cos: cz) = sincos(az)
-
-        let sxsz = sx * sz
-        let cycz = cy * cz
-
-        return float4x4(
-            [scale.x * (cycz - sxsz * sy),       scale.x * -cx * sz, scale.x * (cz * sy + cy * sxsz), 0],
-            [scale.y * (cz * sx * sy + cy * sz), scale.y * cx * cz,  scale.y * (sy * sz - cycz * sx), 0],
-            [scale.z * -cx * sy,                 scale.z * sx,       cx * cy,                         0],
-            [translate.x,                        translate.y,        translate.z,                     1]
+    /// Returns a shearing matrix along the xy-plane
+    /// - Parameter xy: the shearing values
+    /// - Returns: a new shearing matrix
+    static func shear(xy: SIMD2<Float32>) -> float4x4 {
+        float4x4(
+            [1,    xy.y, 0, 0],
+            [xy.x, 1,    0, 0],
+            [0,    0,    1, 0],
+            [0,    0,    0, 1]
         )
     }
+
+    /// Returns a shearing matrix along the xz-plane
+    /// - Parameter xz: the shearing values
+    /// - Returns: a new shearing matrix
+    static func shear(xz: SIMD2<Float32>) -> float4x4 {
+        float4x4(
+            [1,    0, xz.y, 0],
+            [0,    1, 0,    0],
+            [xz.x, 0, 1,    0],
+            [0,    0, 0,    1]
+        )
+    }
+
+    /// Returns a shearing matrix along the yz-plane
+    /// - Parameter yz: the shearing values
+    /// - Returns: a new shearing matrix
+    static func shear(yz: SIMD2<Float32>) -> float4x4 {
+        float4x4(
+            [1, 0,    0,    0],
+            [0, 1,    yz.y, 0],
+            [0, yz.x, 1,    0],
+            [0, 0,    0,    1]
+        )
+    }
+
+    // MARK: - Matrix Operations
 
     static func lookAt(
         eye: SIMD3<Float32>,

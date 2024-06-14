@@ -20,7 +20,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-syntax.git", from: "510.0.2"),
-        .package(url: "https://github.com/SwiftGFX/SwiftMath.git", from: "3.3.1"),
+        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.3.0")
     ],
     targets: [
         .macro(
@@ -34,7 +34,6 @@ let package = Package(
         .testTarget(
             name: "SIMDToolsTests",
             dependencies: [
-                .product(name: "SwiftMath", package: "SwiftMath"),
                 "SIMDTools",
             ]
         ),

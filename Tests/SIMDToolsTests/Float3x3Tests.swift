@@ -1,8 +1,9 @@
 import XCTest
 @testable import SIMDTools
 
-final class SIMDToolsTests: XCTestCase {
-        func testIdentityMatrix() {
+class Float3x3Tests: XCTestCase {
+
+    func testIdentityMatrix() {
         let identity = float3x3.identity
         XCTAssertEqual(identity, float3x3(diagonal: SIMD3<Float>(1, 1, 1)))
     }
@@ -37,6 +38,5 @@ final class SIMDToolsTests: XCTestCase {
         )
         XCTAssertEqual(scaling, expected)
     }
-
-
 }
+

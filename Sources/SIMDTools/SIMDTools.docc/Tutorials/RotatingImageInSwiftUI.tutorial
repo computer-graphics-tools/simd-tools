@@ -1,0 +1,65 @@
+@Tutorial(time: 30) {
+    @Intro(title: "Rotating images in SwiftUI") {
+        This tutorial guides you through building a simple SwiftUI demo app that will demostrate you how to use SwiftUI layer effects to apply affine transform to images. You'll start by building the content view.
+        
+        @Image(source: creating-intro.png, alt: "")
+    }
+    
+    @Section(title: "Create a new project and add SIMDTools") {
+        @ContentAndMedia {
+            Create and configure an Xcode project that uses SIMDTools.
+            
+            @Image(source: creating-section1.png, alt: "An arrow pointing from the SIMDTools framework icon to the Xcode app project icon.")
+        }
+        
+        @Steps {
+            @Step {
+                Create a new project using the iOS App template.
+                
+                @Image(source: template-selector.png, alt: "A screenshot of the template selector in Xcode.")
+            }
+            
+            @Step {
+                Enter "Rotate Image" as the Product Name. 
+                
+                @Image(source: enter-ptoduct-name.png, alt: "A screenshot of the project sheet, which shows the Product Name for the app being built as Rotate Image. The Interface is set to SwiftUI, and the Life Cycle is set to SwiftUI App.")
+            }
+            
+            @Step {
+                Select "SwiftUI" from the Interface pop-up menu and "SwiftUI App" from the Life Cycle pop-up menu, then click Next. Choose a location to save the Rotate Image project on your Mac.
+                
+                @Image(source: select-interface-type.png, alt: "A screenshot of the project sheet, which shows the Interface is set to SwiftUI and the Life Cycle is set to SwiftUI App.")
+            }
+            
+            @Step {
+                Navigate to the project page and click plus in the `Frameworks, Libraries and Embedded Content` section.
+                
+                @Image(source: add-frameworks.png, alt:"A screenshot shows the Frameworks, Libraries and Embedded Content section.")
+            }
+            
+            @Step {
+                Add `SIMDTools` to the project.
+                
+                @Image(source: add-simd-tools-package.png, alt:"A screenshot shows the Frameworks, Libraries and Embedded Content section.")
+            }
+        }
+    }
+    
+    @Section(title: "Customize the ContentView") {
+        @ContentAndMedia {
+            Add code to display an image in SwiftUI.
+            
+            @Image(source: creating-section1.png, alt: "An arrow pointing from the SIMDTools framework icon to the Xcode app project icon.")
+        }
+        
+        @Steps {
+            @Step {
+                By default, Xcode generates a hello world template.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-02-01.swift) {
+                    @Image(source: preview-01-creating-code-02-01.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with the text, Hello, World!, centered in the middle of the display.")
+                }
+            }
+        }
+    }
+}

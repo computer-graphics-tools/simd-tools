@@ -1,5 +1,3 @@
-import Foundation
-
 public extension SIMD2 {
     #GeneratePropeprtiesForSIMD(2)
 }

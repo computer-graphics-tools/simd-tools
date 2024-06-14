@@ -1,4 +1,4 @@
-import Foundation
+import simd
 
 /// A floating point value that represents an angle
 @frozen
