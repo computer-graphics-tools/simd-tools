@@ -49,7 +49,7 @@
         @ContentAndMedia {
             Add code to display an image in SwiftUI.
             
-            @Image(source: creating-section1.png, alt: "An arrow pointing from the SIMDTools framework icon to the Xcode app project icon.")
+            @Image(source: creating-section2.png, alt: "An arrow pointing from the SIMDTools framework icon to the Xcode app project icon.")
         }
         
         @Steps {
@@ -58,6 +58,62 @@
                 
                 @Code(name: "ContentView.swift", file: 01-creating-code-02-01.swift) {
                     @Image(source: preview-01-creating-code-02-01.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with the text, Hello, World!, centered in the middle of the display.")
+                }
+            }
+            
+            @Step {
+                Delete the default code inside the `VStack`.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-02-02.swift) {
+                    @Image(source: preview-01-creating-code-02-02.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, showing empty screen.")
+                }
+            }
+            
+            @Step {
+                Import the `SIMDTools` package.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-02-03.swift) {
+                    @Image(source: preview-01-creating-code-02-02.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, showing empty screen.")
+                }
+            }
+            
+            @Step {
+                Add an Image with gear symbol for SFSymbols.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-02-04.swift) {
+                    @Image(source: preview-01-creating-code-02-04.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with gear image, centered in the middle of the display.")
+                }
+            }
+            
+            @Step {
+                Fix the image size at 300 points.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-02-05.swift) {
+                    @Image(source: preview-01-creating-code-02-05.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with gear image, centered in the middle of the display.")
+                }
+            }
+            
+            @Step {
+                Add linear gradient foreground style to the image.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-02-06.swift) {
+                    @Image(source: preview-01-creating-code-02-06.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with colored gear image, centered in the middle of the display.")
+                }
+            }
+            
+            @Step {
+                Add a `@State` property and a label describing the rotation angle in degrees.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-02-07.swift) {
+                    @Image(source: preview-01-creating-code-02-07.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with colored gear image and a rotatio degrees label, centered in the middle of the display.")
+                }
+            }
+            
+            @Step {
+                Add a slider capable of changing the rotation angle property.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-02-08.swift) {
+                    @Image(source: preview-01-creating-code-02-08.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with colored gear image and a rotatio degrees label, centered in the middle of the display.")
                 }
             }
         }
