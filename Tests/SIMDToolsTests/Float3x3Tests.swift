@@ -1,4 +1,5 @@
 import XCTest
+import simd
 @testable import SIMDTools
 
 class Float3x3Tests: XCTestCase {

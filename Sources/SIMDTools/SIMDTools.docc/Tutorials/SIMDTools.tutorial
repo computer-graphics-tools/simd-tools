@@ -1,15 +1,15 @@
 @Tutorials(name: "SIMDTools") {
     @Intro(title: "Meet SIMDTools") {
-        Learn how to use SIMD matrices to calculate affine transform for rotating images. Get started with SIMDTools by buildiong the demo app _RotateImage_.
+        Learn how to use SIMD matrices to calculate affine transform for rotating SwiftUI views. Get started with SIMDTools by building the demo app _RotateImage_.
         
         @Image(source: simd-tools.png, alt: "SIMDTools icon.")
     }
     
-    @Chapter(name: "Rotating Image In SwiftUI") {
+    @Chapter(name: "SIMDTools Essentials") {
         @Image(source: chapter1-rotate-image.png, alt: "Rotate Image app main sceen.")
         
         Construct a rotation affine transform using SIMDTools and apply it to rotate an image.
         
-        @TutorialReference(tutorial: "doc:RotatingImageInSwiftUI")
+        @TutorialReference(tutorial: "doc:ApplyingAffineTransformsToSwiftUIViewsWithMetal")
     }
 }

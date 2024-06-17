@@ -1,6 +1,8 @@
 # ``SIMDTools``
 
-Welcome to the documentation for the `simd-tools` Swift package. This package provides utility functions and extensions for working with SIMD matrices and vectors in Swift.
+![SIMDTools](simd-tools.png)
+
+Welcome to the documentation for the `SIMDTools` Swift package. This package provides utility functions and extensions for working with SIMD matrices and vectors in Swift.
 
 ## Overview
 
@@ -11,11 +13,14 @@ The `simd-tools` package includes:
 
 ## Topics
 
-### Getting Started
+### Essentials
 
-- <doc:UsingAngle>
+- <doc:/tutorials/SIMDTools>
 
-### Reference
+### Usage
 
-- ``Angle``
+- <doc:WorkingWithAngles>
+- <doc:WorkingWith3x3Matrices>
+- <doc:WorkingWith4x4Matrices>
+- <doc:HelperFunctions>
 

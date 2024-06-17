@@ -3,12 +3,12 @@ import simd
 public extension float3x3 {
 
     // MARK: - Identity
-    
+
     /// Returns the identity matrix
     static let identity = matrix_identity_float3x3
 
     // MARK: - Translate
-    
+
     /// Returns a translation matrix
     /// - Parameter value: the translation value
     /// - Returns: a new translation matrix
@@ -35,7 +35,7 @@ public extension float3x3 {
     }
 
     // MARK: - Scale
-    
+
     /// Returns a scaling matrix
     /// - Parameter value: the scaling value
     /// - Returns: a new scaling matrix
@@ -55,6 +55,9 @@ extension float3x3: Codable {
         case column1, column2, column3
     }
 
+    /// Initializes a `float3x3` instance from a decoder
+    /// - Parameter decoder: The decoder to read data from
+    /// - Throws: An error if reading from the decoder fails
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKey.self)
         let c1 = try values.decode(SIMD3<Float>.self, forKey: .column1)
@@ -64,6 +67,9 @@ extension float3x3: Codable {
         self.init(c1, c2, c3)
     }
 
+    /// Encodes a `float3x3` instance into an encoder
+    /// - Parameter encoder: The encoder to write data to
+    /// - Throws: An error if encoding fails
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKey.self)
         try container.encode(self.columns.0, forKey: .column1)

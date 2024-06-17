@@ -3,12 +3,12 @@ import simd
 public extension float4x4 {
 
     // MARK: - Identity
-    
+
     /// Returns the identity matrix
     static let identity = matrix_identity_float4x4
 
     // MARK: - Translate
-    
+
     /// Returns a translation matrix
     /// - Parameter value: the translation value
     /// - Returns: a new translation matrix
@@ -48,7 +48,7 @@ public extension float4x4 {
             [0,   0,  0,  1]
         )
     }
-    
+
     /// Returns a transformation matrix that rotates around the z axis
     /// - Parameter z: angle
     /// - Returns: a new rotation matrix
@@ -82,6 +82,9 @@ public extension float4x4 {
 
     // MARK: - Scale
 
+    /// Returns a scaling matrix
+    /// - Parameter value: The scaling values for x, y, and z axes
+    /// - Returns: A new scaling matrix
     static func scale(value: SIMD3<Float32>) -> float4x4 {
         float4x4(
             [value.x, 0,       0,       0],
@@ -131,6 +134,12 @@ public extension float4x4 {
 
     // MARK: - Matrix Operations
 
+    /// Creates a view matrix for a left-handed coordinate system
+    /// - Parameters:
+    ///   - eye: The position of the camera
+    ///   - at: The position to look at
+    ///   - up: The up direction of the camera
+    /// - Returns: A left-handed view matrix
     static func lookAt(
         eye: SIMD3<Float32>,
         at: SIMD3<Float32>,
@@ -143,6 +152,12 @@ public extension float4x4 {
         )
     }
 
+    /// Creates a left-handed view matrix
+    /// - Parameters:
+    ///   - eye: The position of the camera
+    ///   - at: The position to look at
+    ///   - up: The up direction of the camera
+    /// - Returns: A left-handed view matrix
     static func lookAtLH(
         eye: SIMD3<Float32>,
         at: SIMD3<Float32>, up: SIMD3<Float32>
@@ -155,6 +170,12 @@ public extension float4x4 {
         )
     }
 
+    /// Creates a view matrix
+    /// - Parameters:
+    ///   - eye: The position of the camera
+    ///   - view: The direction to look at
+    ///   - up: The up direction of the camera
+    /// - Returns: A view matrix
     static func lookAt(
         eye: SIMD3<Float32>,
         view: SIMD3<Float32>,
@@ -171,6 +192,12 @@ public extension float4x4 {
     }
 
     /// Creates a left-handed perspective projection matrix
+    /// - Parameters:
+    ///   - fovy: The field of view in the y direction, in degrees
+    ///   - aspect: The aspect ratio of the view
+    ///   - near: The distance to the near clipping plane
+    ///   - far: The distance to the far clipping plane
+    /// - Returns: A left-handed perspective projection matrix
     static func proj(
         fovy: Angle,
         aspect: Float32,
@@ -190,6 +217,14 @@ public extension float4x4 {
     }
 
     /// Creates a left-handed perspective projection matrix
+    /// - Parameters:
+    ///   - x: The x coordinate of the view
+    ///   - y: The y coordinate of the view
+    ///   - w: The width of the view
+    ///   - h: The height of the view
+    ///   - near: The distance to the near clipping plane
+    ///   - far: The distance to the far clipping plane
+    /// - Returns: A left-handed perspective projection matrix
     static func projLH(
         x: Float32,
         y: Float32,
@@ -210,6 +245,14 @@ public extension float4x4 {
     }
 
     /// Creates a right-handed perspective projection matrix
+    /// - Parameters:
+    ///   - x: The x coordinate of the view
+    ///   - y: The y coordinate of the view
+    ///   - w: The width of the view
+    ///   - h: The height of the view
+    ///   - near: The distance to the near clipping plane
+    ///   - far: The distance to the far clipping plane
+    /// - Returns: A right-handed perspective projection matrix
     static func projRH(
         x: Float,
         y: Float,
@@ -230,6 +273,14 @@ public extension float4x4 {
     }
 
     /// Creates a left-handed orthographic projection matrix
+    /// - Parameters:
+    ///   - left: The left coordinate of the view
+    ///   - right: The right coordinate of the view
+    ///   - bottom: The bottom coordinate of the view
+    ///   - top: The top coordinate of the view
+    ///   - near: The distance to the near clipping plane
+    ///   - far: The distance to the far clipping plane
+    /// - Returns: A left-handed orthographic projection matrix
     static func ortho(
         left: Float,
         right: Float,
@@ -249,6 +300,15 @@ public extension float4x4 {
     }
 
     /// Creates a left-handed orthographic projection matrix
+    /// - Parameters:
+    ///   - left: The left coordinate of the view
+    ///   - right: The right coordinate of the view
+    ///   - bottom: The bottom coordinate of the view
+    ///   - top: The top coordinate of the view
+    ///   - near: The distance to the near clipping plane
+    ///   - far: The distance to the far clipping plane
+    ///   - offset: An offset value for the projection matrix
+    /// - Returns: A left-handed orthographic projection matrix
     static func orthoLH(
         left: Float,
         right: Float,
@@ -273,6 +333,15 @@ public extension float4x4 {
     }
 
     /// Creates a right-handed orthographic projection matrix
+    /// - Parameters:
+    ///   - left: The left coordinate of the view
+    ///   - right: The right coordinate of the view
+    ///   - bottom: The bottom coordinate of the view
+    ///   - top: The top coordinate of the view
+    ///   - near: The distance to the near clipping plane
+    ///   - far: The distance to the far clipping plane
+    ///   - offset: An offset value for the projection matrix
+    /// - Returns: A right-handed orthographic projection matrix
     static func orthoRH(
         left: Float,
         right: Float,
@@ -304,6 +373,9 @@ extension float4x4: Codable {
         case column1, column2, column3, column4
     }
 
+    /// Initializes a `float4x4` instance from a decoder
+    /// - Parameter decoder: The decoder to read data from
+    /// - Throws: An error if reading from the decoder fails
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKey.self)
         let c1 = try values.decode(SIMD4<Float>.self, forKey: .column1)
@@ -314,6 +386,9 @@ extension float4x4: Codable {
         self.init(c1, c2, c3, c4)
     }
 
+    /// Encodes a `float4x4` instance into an encoder
+    /// - Parameter encoder: The encoder to write data to
+    /// - Throws: An error if encoding fails
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKey.self)
         try container.encode(self.columns.0, forKey: .column1)
