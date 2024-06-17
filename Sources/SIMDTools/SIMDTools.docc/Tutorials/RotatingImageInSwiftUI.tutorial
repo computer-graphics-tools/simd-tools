@@ -86,7 +86,7 @@
             }
             
             @Step {
-                Fix the image size at 300 points.
+                Fix the image size at 200 points.
                 
                 @Code(name: "ContentView.swift", file: 01-creating-code-02-05.swift) {
                     @Image(source: preview-01-creating-code-02-05.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with gear image, centered in the middle of the display.")
@@ -94,7 +94,7 @@
             }
             
             @Step {
-                Add linear gradient foreground style to the image.
+                Customize the style of the ImageView.
                 
                 @Code(name: "ContentView.swift", file: 01-creating-code-02-06.swift) {
                     @Image(source: preview-01-creating-code-02-06.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with colored gear image, centered in the middle of the display.")

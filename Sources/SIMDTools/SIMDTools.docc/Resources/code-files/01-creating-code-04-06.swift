@@ -13,19 +13,21 @@ struct ContentView: View {
                     width: CGFloat(imageSize),
                     height: CGFloat(imageSize)
                 )
-                .foregroundStyle(
-                    .linearGradient(
-                        colors: [.red, .orange],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                )
+                .foregroundStyle(Color.secondary)
                 .layerEffect(
                     ShaderLibrary.applyTransform(.floatArray(calculateTransform())),
                     maxSampleOffset: .zero
                 )
+                .padding()
+                .background(Color.secondary.opacity(0.1))
+                .cornerRadius(10)
             Text(String(format: "Angle: %.2f", angleInDegrees))
-            Slider(value: $angleInDegrees, in: -180...180)
+                .padding()
+            Slider(value: $angleInDegrees, in: 0...360)
+                .frame(width: CGFloat(imageSize))
+                .padding()
+                .background(Color.secondary.opacity(0.1))
+                .cornerRadius(10)
         }
         .padding()
     }

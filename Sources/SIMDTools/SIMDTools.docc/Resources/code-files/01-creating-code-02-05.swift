@@ -2,7 +2,7 @@ import SwiftUI
 import SIMDTools
 
 struct ContentView: View {
-    private let imageSize: Float32 = 300
+    private let imageSize: Float32 = 200
     
     var body: some View {
         VStack {
