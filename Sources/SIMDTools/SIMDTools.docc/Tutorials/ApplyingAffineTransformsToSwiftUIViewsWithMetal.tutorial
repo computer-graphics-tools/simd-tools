@@ -1,0 +1,254 @@
+@Tutorial(time: 30) {
+    @Intro(title: "Applying Affine Transforms To SwiftUI Views With Metal") {
+        This tutorial guides you through building a simple SwiftUI demo app that will demonstrate you how to use SwiftUI layer effects to apply affine transform to a view.
+        
+        @Image(source: creating-intro.png, alt: "")
+    }
+    
+    @Section(title: "Create a new project and add SIMDTools") {
+        @ContentAndMedia {
+            Create and configure an Xcode project that uses SIMDTools.
+            
+            @Image(source: creating-section1.png, alt: "An arrow pointing from the SIMDTools framework icon to the Xcode app project icon.")
+        }
+        
+        @Steps {
+            @Step {
+                Create a new project using the iOS App template.
+                
+                @Image(source: template-selector.png, alt: "A screenshot of the template selector in Xcode.")
+            }
+            
+            @Step {
+                Enter "Rotate Image" as the Product Name. 
+                
+                @Image(source: enter-product-name.png, alt: "A screenshot of the project sheet, which shows the Product Name for the app being built as Rotate Image. The Interface is set to SwiftUI, and the Life Cycle is set to SwiftUI App.")
+            }
+            
+            @Step {
+                Select "SwiftUI" from the Interface pop-up menu and "SwiftUI App" from the Life Cycle pop-up menu, then click Next. Choose a location to save the Rotate Image project on your Mac.
+                
+                @Image(source: select-interface-type.png, alt: "A screenshot of the project sheet, which shows the Interface is set to SwiftUI and the Life Cycle is set to SwiftUI App.")
+            }
+            
+            @Step {
+                Navigate to the project page and click plus in the `Frameworks, Libraries and Embedded Content` section.
+                
+                @Image(source: add-frameworks.png, alt:"A screenshot shows the Frameworks, Libraries and Embedded Content section.")
+            }
+            
+            @Step {
+                Add `SIMDTools` to the project.
+                
+                @Image(source: add-simd-tools-package.png, alt:"A screenshot shows the Frameworks, Libraries and Embedded Content section.")
+            }
+        }
+    }
+    
+    @Section(title: "Customize the ContentView") {
+        @ContentAndMedia {
+            Add code to display an image in SwiftUI.
+            
+            @Image(source: creating-section2.png, alt: "An arrow pointing from the SIMDTools framework icon to the Xcode app project icon.")
+        }
+        
+        @Steps {
+            @Step {
+                By default, Xcode generates a hello world template.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-02-01.swift) {
+                    @Image(source: preview-01-creating-code-02-01.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with the text, Hello, World!, centered in the middle of the display.")
+                }
+            }
+            
+            @Step {
+                Delete the default code inside the `VStack`.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-02-02.swift) {
+                    @Image(source: preview-01-creating-code-02-02.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, showing empty screen.")
+                }
+            }
+            
+            @Step {
+                Import the `SIMDTools` package.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-02-03.swift) {
+                    @Image(source: preview-01-creating-code-02-02.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, showing empty screen.")
+                }
+            }
+            
+            @Step {
+                Add an Image with gear symbol for SFSymbols.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-02-04.swift) {
+                    @Image(source: preview-01-creating-code-02-04.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with gear image, centered in the middle of the display.")
+                }
+            }
+            
+            @Step {
+                Fix the image size at 200 points.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-02-05.swift) {
+                    @Image(source: preview-01-creating-code-02-05.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with gear image, centered in the middle of the display.")
+                }
+            }
+            
+            @Step {
+                Customize the style of the ImageView.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-02-06.swift) {
+                    @Image(source: preview-01-creating-code-02-06.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with colored gear image, centered in the middle of the display.")
+                }
+            }
+            
+            @Step {
+                Add a `@State` property and a label describing the rotation angle in degrees.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-02-07.swift) {
+                    @Image(source: preview-01-creating-code-02-07.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with colored gear image and a rotation degrees label, centered in the middle of the display.")
+                }
+            }
+            
+            @Step {
+                Add a slider capable of changing the rotation angle property.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-02-08.swift) {
+                    @Image(source: preview-01-creating-code-02-08.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with colored gear image and a rotation degrees label, centered in the middle of the display.")
+                }
+            }
+        }
+    }
+    
+    @Section(title: "Write the Metal Shader") {
+        @ContentAndMedia {
+            Write the metal shader code that will apple the transform to the image sampling position. 
+            
+            @Image(source: creating-section3.png, alt: "An arrow pointing from the SIMDTools framework icon to the Xcode app project icon.")
+        }
+        
+        @Steps {
+            @Step {
+                Create new file called `Shaders.metal`.
+                
+                @Code(name: "Shaders.metal", file: 01-creating-code-03-01.metal)
+            }
+            
+            @Step {
+                Include necessary headers including SwiftUI-related. Use `metal` namespace for convenience.
+                
+                @Code(name: "Shaders.metal", file: 01-creating-code-03-02.metal)
+            }
+            
+            @Step {
+                Add a `stitchable` kernel function called `applyTransform`.
+                
+                @Code(name: "Shaders.metal", file: 01-creating-code-03-03.metal)
+            }
+            
+            @Step {
+                Include `data` and `count` arguments.
+                
+                The `data` argument points to the memory where the transform components will be stored. As SwiftUI does not support passing `float3x3` values as arguments to `ShaderLibrary`, a workaround with float array is used.
+                
+                @Code(name: "Shaders.metal", file: 01-creating-code-03-04.metal)
+            }
+            
+            @Step {
+                Construct a float3x3 transform out of the float values.
+                
+                @Code(name: "Shaders.metal", file: 01-creating-code-03-05.metal)
+            }
+            
+            @Step {
+                Apply the transform to the position vector.
+                
+                As the transform is a column-major, in the multiplication equation it should be on the left side to the vector.
+                
+                @Code(name: "Shaders.metal", file: 01-creating-code-03-06.metal)
+            }
+            
+            When applying a 3x3 transformation matrix to a 2D point (represented as a 3-element vector with a 1 in the z-coordinate), the resulting `newPosition` might not have a z-coordinate of 1. The z-coordinate could be any value, especially when the transformation includes perspective distortions. 
+
+            @Step {
+                Normalize the `newPosition` vector.
+                
+                By dividing by `newPosition.z`, you're normalizing the coordinates. This step ensures that the resulting coordinates are in the correct 2D space. Without this division, the x and y coordinates could be scaled incorrectly, leading to unexpected results.
+                
+                @Code(name: "Shaders.metal", file: 01-creating-code-03-07.metal)
+            }
+            
+            @Step {
+                Sample the `newPosition` and return the result color value.
+                
+                At this point, we have finished with the metal kernel.
+                
+                @Code(name: "Shaders.metal", file: 01-creating-code-03-08.metal)
+            }
+        }
+    }
+        
+    @Section(title: "Create and apply the transform.") {
+        @ContentAndMedia {
+            Create the rotation transform with `SIMDTools` and apply it using SwiftUI `layerEffect`.
+            
+            @Image(source: creating-section4.png, alt: "An arrow pointing from the SIMDTools framework icon to the Xcode app project icon.")
+        }
+        
+        @Steps {
+            
+            Now its time to create the transform that will rotate the image view.
+            
+            @Step {
+                Let's start with adding a dedicated function.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-04-01.swift) {
+                    @Image(source: preview-01-creating-code-02-08.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with colored gear image and a rotation degrees label, centered in the middle of the display.")
+                }
+            }
+            
+            @Step {
+                Create the `angle` variable of `Angle` type from `SIMDTools`.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-04-02.swift) {
+                    @Image(source: preview-01-creating-code-02-08.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with colored gear image and a rotation degrees label, centered in the middle of the display.")
+                }
+            }
+            
+            @Step {
+                Calculate an offset that will be used in the pre- post-transforms.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-04-03.swift) {
+                    @Image(source: preview-01-creating-code-02-08.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with colored gear image and a rotation degrees label, centered in the middle of the display.")
+                }
+            }
+            
+            @Step {
+                Create the transform by multiplying pre-, rotation and post-transform using convenience functions from `SIMDTools`.
+                
+                The transforms are applied from right to left: `.translate(value: -offset)` is the translation to the center, `.rotate(angle: angle)` is the rotation around the center, `.translate(value: offset)` is the translation back to the original position.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-04-04.swift) {
+                    @Image(source: preview-01-creating-code-02-08.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with colored gear image and a rotation degrees label, centered in the middle of the display.")
+                }
+            }
+            
+            @Step {
+                Decompose the transform into the array of floats.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-04-05.swift) {
+                    @Image(source: preview-01-creating-code-02-08.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with colored gear image and a rotation degrees label, centered in the middle of the display.")
+                }
+            }
+            
+            @Step {
+                Apply layerEffect to the image view.
+                
+                @Code(name: "ContentView.swift", file: 01-creating-code-04-06.swift) {
+                    @Image(source: preview-01-creating-code-04-06.png, alt: "A screenshot from the Xcode preview as it would appear on iPhone, with colored gear image and a rotation degrees label, centered in the middle of the display.")
+                }
+            }
+            
+            Congratulations on completing the tutorial on applying affine transforms to SwiftUI views using Metal! By following this guide, you've built a SwiftUI demo app that demonstrates how to use layer effects for applying affine transformations to a view. Throughout this process, you learned how to integrate Metal shaders into a SwiftUI project, handle affine transformations, and create interactive UI elements. Keep experimenting with different transformations and shaders to further enhance your skills. Happy coding!
+        }
+    }
+}
