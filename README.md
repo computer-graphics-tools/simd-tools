@@ -15,15 +15,38 @@ The `simd-tools` package includes:
 
 - `Angle` struct for representing angles.
 - Extensions for `float3x3` and `float4x4` to perform various matrix transformations.
+- `SIMD2`, `SIMD3` and `SIMD4` components permutations.
 - Utility functions such as `clamp`, `saturate`, and `interpolate`.
 
-## Install via [SwiftPM](https://swift.org/package-manager/)
+Please see [the package's documentation](https://swiftpackageindex.com/computer-graphics-tools/simd-tools/documentation/simdtools)
+for more detailed usage instructions.
+
+## Adding the SIMDTools as a Dependency
+
+To use the SIMDTools package, first add it as a dependency:
 
 ```swift
-.package(url: "https://github.com/computer-graphics-tools/simd-tools", from: "0.0.1")
+let package = Package(
+    // name, platforms, products, etc.
+    dependencies: [
+        // other dependencies
+        .package(url: "https://github.com/computer-graphics-tools/simd-tools", from: "0.0.1"),
+    ],
+    targets: [
+        // targets
+    ]
+)
 ```
 
-### Usage
+Swift 5.9 is required in order to use the package.
+
+## Tutorials
+
+- [Use SIMDTools in SwiftUI](https://swiftpackageindex.com/computer-graphics-tools/simd-tools/tutorials/usesimdtoolsinswiftui)
+
+    Learn how to use SIMD matrices to calculate affine transform for rotating SwiftUI views. Get started with SIMDTools by building the demo app RotateImage.
+
+## Usage
 
 - [Working With Angles](Sources/SIMDTools/SIMDTools.docc/WorkingWithAngles.md)
 - [Working With 3x3 Matrices](Sources/SIMDTools/SIMDTools.docc/WorkingWith3x3Matrices.md)
