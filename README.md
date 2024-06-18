@@ -1,5 +1,8 @@
 # SIMDTools
 
+[![Platform Compatibility](https://img.shields.io/badge/Platforms-iOS%20|%20macOS%20|%20watchOS%20|%20tvOS-brightgreen)](https://swift.org/platforms/)
+[![Swift Version](https://img.shields.io/badge/Swift-5.9-orange)](https://swift.org)
+
 <p align="left">
     <img src="Sources/SIMDTools/SIMDTools.docc/Resources/documentation-art/simd-tools@2x.png", width="120">
 </p>
