@@ -7,7 +7,7 @@
     <img src="Sources/SIMDTools/SIMDTools.docc/Resources/documentation-art/simd-tools@2x.png", width="120">
 </p>
 
-Welcome to the documentation for the `SIMDTools` Swift package. This package provides utility functions and extensions for working with SIMD matrices and vectors in Swift.
+`SIMDTools` provides utility functions and extensions for working with SIMD matrices and vectors in Swift.
 
 ## Overview
 
