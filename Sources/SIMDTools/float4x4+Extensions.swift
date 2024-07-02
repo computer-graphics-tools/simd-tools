@@ -365,6 +365,65 @@ public extension simd_float4x4 {
             [dd + offset, ee,  ff, 1]
         )
     }
+
+    /// Returns a scaling matrix to fill the original size exactly within the bounding size, without maintaining the aspect ratio
+    /// - Parameters:
+    ///   - originalSize: The original size of the object
+    ///   - boundingSize: The bounding size to fill the object into
+    /// - Returns: A new scaling matrix
+    static func fillScale(
+        originalSize: SIMD2<Float32>,
+        boundingSize: SIMD2<Float32>
+    ) -> float4x4 {
+        let scaleFactors = boundingSize / originalSize
+        return .scale(value: SIMD3<Float32>(scaleFactors.x, scaleFactors.y, 1))
+    }
+    
+    /// Returns a scaling matrix to fill the original size within the bounding size, maintaining the aspect ratio and cropping excess
+    /// - Parameters:
+    ///   - originalSize: The original size of the object
+    ///   - boundingSize: The bounding size to fill the object into
+    /// - Returns: A new scaling matrix
+    static func aspectFillScale(
+        originalSize: SIMD2<Float32>,
+        boundingSize: SIMD2<Float32>
+    ) -> float4x4 {
+        var newSize = boundingSize
+        let mW = newSize.x / originalSize.x
+        let mH = newSize.y / originalSize.y
+
+        if mH > mW {
+            newSize.x = newSize.y / originalSize.y * originalSize.x
+        } else if mW > mH {
+            newSize.y = newSize.x / originalSize.x * originalSize.y
+        }
+
+        let scaleFactors = newSize / originalSize
+        return .scale(value: SIMD3<Float32>(scaleFactors.x, scaleFactors.y, 1))
+    }
+
+    /// Returns a scaling matrix to fit the original size within the bounding size, maintaining the aspect ratio
+    /// - Parameters:
+    ///   - originalSize: The original size of the object
+    ///   - boundingSize: The bounding size to fit the object into
+    /// - Returns: A new scaling matrix
+    static func aspectFitScale(
+        originalSize: SIMD2<Float32>,
+        boundingSize: SIMD2<Float32>
+    ) -> float4x4 {
+        var newSize = boundingSize
+        let mW = newSize.x / originalSize.x
+        let mH = newSize.y / originalSize.y
+
+        if mH < mW {
+            newSize.x = newSize.y / originalSize.y * originalSize.x
+        } else if mW < mH {
+            newSize.y = newSize.x / originalSize.x * originalSize.y
+        }
+
+        let scaleFactors = newSize / originalSize
+        return .scale(value: SIMD3<Float32>(scaleFactors.x, scaleFactors.y, 1))
+    }
 }
 
 // MARK: - Codable
@@ -397,5 +456,5 @@ extension float4x4: Codable {
         try container.encode(self.columns.2, forKey: .column3)
         try container.encode(self.columns.3, forKey: .column4)
     }
-    
+
 }
