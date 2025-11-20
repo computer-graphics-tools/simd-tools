@@ -1,4 +1,7 @@
 import simd
+#if canImport(Glibc)
+import Glibc
+#endif
 
 /// A floating point value that represents an angle
 
@@ -10,6 +13,11 @@ public struct Angle {
     /// The value of the angle in radians
     public var radians: Float32 {
         degrees * Float32.pi / 180.0
+    }
+    
+    @inline(__always)
+    public var piFactor: Float {
+        degrees / 180.0
     }
 
     /// Creates an instance using the value in radians
@@ -208,7 +216,13 @@ extension Angle: Comparable {
 ///   - sina: A reference to a variable to store the sine of the angle
 ///   - cosa: A reference to a variable to store the cosine of the angle
 public func sincos(_ a: Angle, _ sina: inout Float, _ cosa: inout Float)  {
-    __sincospif(a.degrees / 180.0, &sina, &cosa)
+    #if canImport(Darwin)
+    __sincospif(a.piFactor, &sina, &cosa)
+    #else
+    let r = a.radians
+    sina = sinf(r)
+    cosa = cosf(r)
+    #endif
 }
 
 /// Computes the sine and cosine of the given angle
@@ -218,7 +232,6 @@ public func sincos(_ a: Angle) -> (sin: Float, cos: Float) {
     var s: Float = 0.0
     var c: Float = 0.0
     sincos(a, &s, &c)
-
     return (sin: s, cos: c)
 }
 
@@ -226,19 +239,31 @@ public func sincos(_ a: Angle) -> (sin: Float, cos: Float) {
 /// - Parameter a: The angle
 /// - Returns: The sine of the angle
 public func sin(_ a: Angle) -> Float {
-    __sinpif(a.degrees / 180.0)
+    #if canImport(Darwin)
+    return __sinpif(a.piFactor)
+    #else
+    return sinf(a.radians)
+    #endif
 }
 
 /// Computes the cosine of the given angle
 /// - Parameter a: The angle
 /// - Returns: The cosine of the angle
 public func cos(_ a: Angle) -> Float {
-    __cospif(a.degrees / 180.0)
+    #if canImport(Darwin)
+    return __cospif(a.piFactor)
+    #else
+    return cosf(a.radians)
+    #endif
 }
 
 /// Computes the tangent of the given angle
 /// - Parameter a: The angle
 /// - Returns: The tangent of the angle
 public func tan(_ a: Angle) -> Float {
-    __tanpif(a.degrees / 180.0)
+    #if canImport(Darwin)
+    return __tanpif(a.piFactor)
+    #else
+    return tanf(a.radians)
+    #endif
 }
