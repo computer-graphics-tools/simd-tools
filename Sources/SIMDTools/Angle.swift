@@ -1,5 +1,6 @@
 import simd
-#if canImport(Glibc)
+#if !canImport(Darwin)
+// If we don't have Apple-specific intrinsics, use Glibc instead
 import Glibc
 #endif
 
