@@ -3,6 +3,12 @@
 import PackageDescription
 import CompilerPluginSupport
 
+#if canImport(simd)
+let simdAvailable = true
+#else
+let simdAvailable = false
+#endif
+
 let package = Package(
     name: "simd-tools",
     platforms: [
@@ -20,7 +26,9 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-syntax.git", .upToNextMajor(from: "600.0.1")),
-    ],
+    ] + (simdAvailable ? [] : [
+        .package(url: "https://github.com/keyvariable/kvSIMD.swift.git", from: "1.1.0"),
+    ]),
     targets: [
         .macro(
             name: "SIMDToolsMacros",
@@ -29,7 +37,12 @@ let package = Package(
                 .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
             ]
         ),
-        .target(name: "SIMDTools", dependencies: ["SIMDToolsMacros"]),
+        .target(
+            name: "SIMDTools",
+            dependencies: ["SIMDToolsMacros"] + (simdAvailable ? [] : [
+                .product(name: "kvSIMD", package: "kvSIMD.swift"),
+            ])
+        ),
         .testTarget(
             name: "SIMDToolsTests",
             dependencies: ["SIMDTools"]
